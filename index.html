@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AES-128 Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="assets/logo.svg" alt="Logo" class="brand-logo" />
+        <div>
+          <h1>AES-128</h1>
+          <p>Simulator Kriptografi</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#panel-input">Input</a>
+        <a href="#panel-key">Key Expansion</a>
+        <a href="#panel-process">Proses</a>
+        <a href="#panel-output">Output</a>
+      </nav>
+
+      <button id="themeToggle" class="btn btn-secondary full" type="button">Light Mode</button>
+      <button id="detailsToggle" class="btn btn-secondary full" type="button">Hide Detail</button>
+
+      <div class="sidebar-footer">
+        <span>FIPS-197</span>
+        <span>Vanilla JS</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar glass">
+        <div>
+          <h2>Web Simulasi AES-128</h2>
+          <p>Implementasi native, step-by-step, 1 blok 16 byte.</p>
+        </div>
+        <div class="topbar-actions">
+          <div id="statusPill" class="pill">Siap</div>
+          <div id="loadingSpinner" class="spinner hidden"></div>
+        </div>
+      </header>
+
+      <section id="panel-input" class="card glass">
+        <div class="card-title">
+          <h3>Input</h3>
+          <span>Plaintext, mode, dan kunci AES</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="modeSelect">Mode Input Plaintext</label>
+            <select id="modeSelect">
+              <option value="text">Text</option>
+              <option value="hex" selected>Hex</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="operationSelect">Operasi</label>
+            <select id="operationSelect">
+              <option value="encrypt" selected>Encrypt</option>
+              <option value="decrypt">Decrypt</option>
+            </select>
+          </div>
+
+          <div class="field span-2">
+            <label for="plaintextInput">Plaintext / Ciphertext</label>
+            <input id="plaintextInput" type="text" placeholder="Contoh: 00112233445566778899aabbccddeeff" maxlength="64" />
+            <small class="helper-text">Contoh bawaan AES-128 FIPS-197, silakan ganti sendiri.</small>
+          </div>
+
+          <div class="field span-2">
+            <label for="keyInput">AES Key (32 Hex)</label>
+            <input id="keyInput" type="text" placeholder="000102030405060708090a0b0c0d0e0f" maxlength="32" />
+            <small class="helper-text">Key wajib 32 karakter hex.</small>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="encryptBtn" class="btn btn-primary" type="button">Encrypt</button>
+          <button id="decryptBtn" class="btn btn-warning" type="button">Decrypt</button>
+          <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
+          <button id="copyBtn" class="btn btn-secondary" type="button">Copy Result</button>
+        </div>
+
+        <div id="errorMessage" class="error"></div>
+      </section>
+
+      <section class="cards-row">
+        <div id="panel-output" class="card glass grow">
+          <div class="card-title">
+            <h3>Output</h3>
+            <span>Hasil hex dan status</span>
+          </div>
+
+          <div class="output-grid">
+            <div>
+              <label>Ciphertext</label>
+              <pre id="cipherOutput" class="output-box"></pre>
+            </div>
+            <div>
+              <label>Plaintext</label>
+              <pre id="plainOutput" class="output-box"></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card glass stat-card">
+          <div class="card-title">
+            <h3>Ringkasan</h3>
+            <span>Validasi & status</span>
+          </div>
+
+          <div class="summary-list">
+            <div><span>Status</span><strong id="statusText">Menunggu input</strong></div>
+            <div><span>Mode</span><strong id="modeText">Encrypt</strong></div>
+            <div><span>Detail</span><strong id="detailText">Aktif</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-key" class="card glass">
+        <div class="card-title">
+          <h3>Key Expansion</h3>
+          <span>RK0 sampai RK10</span>
+        </div>
+        <div id="keyExpansionAccordion" class="accordion"></div>
+      </section>
+
+      <section id="panel-process" class="card glass">
+        <div class="card-title">
+          <h3>Proses AES</h3>
+          <span>Initial round, 10 round, dan dekripsi</span>
+        </div>
+        <div id="processAccordion" class="accordion"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
